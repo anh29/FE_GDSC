@@ -1,0 +1,40 @@
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  text-align: center;
+  color: #0c67ae;
+}
+
+#img .logo {
+  height: 150px;
+  width: 400px;
+}
+
+#img .result {
+  height: 100px;
+  border: 6px solid;
+  position: absolute;
+  top: 20%;
+}
+
+#board {
+  width: 360px;
+  height: 360px;
+  background-color: lightblue;
+  border: 10px solid #0c67ae;
+
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+#board img.small {
+  width: 118px;
+  height: 118px;
+  border: 1px solid #0c67ae;
+}
+
+#board img.large {
+  width: 70px;
+  height: 70px;
+  border: 1px solid #0c67ae;
+}
