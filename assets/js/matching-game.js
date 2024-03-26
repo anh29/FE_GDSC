@@ -12,6 +12,7 @@ const questions = [
 
 let currentQuestionIndex = 0;
 let gameCompleted = false;
+let questionDisplayed = false;
 
 function handleCardClick(card) {
   if (gameCompleted) {
@@ -22,10 +23,11 @@ function handleCardClick(card) {
   const questionModal = document.getElementById('questionModal');
   const questionText = document.getElementById('questionText');
 
-  if (currentQuestionIndex % 2 === 0) {
+  if (!questionDisplayed) {
     const question = questions[currentQuestionIndex / 2].question;
     questionText.textContent = question;
     questionModal.style.display = 'block';
+    questionDisplayed = true;
   }
 
   currentQuestionIndex++;
