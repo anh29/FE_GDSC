@@ -27,7 +27,6 @@ function handleCardClick(card) {
     const question = questions[currentQuestionIndex / 2].question;
     questionText.textContent = question;
     questionModal.style.display = 'block';
-    questionDisplayed = true;
   }
 
   currentQuestionIndex++;
@@ -40,7 +39,6 @@ function chooseAnswer(answer) {
     questions[Math.floor((currentQuestionIndex - 1) / 2)].answer;
 
   if (answer.toLowerCase() === correctAnswer.toLowerCase()) {
-    alert('Thành công!');
     questionModal.style.display = 'none';
     if (currentQuestionIndex >= questions.length * 2) {
       alert("You've answered all questions!");
