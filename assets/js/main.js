@@ -1,5 +1,21 @@
 let cards = [1, 2, 3, 4, 5, 6];
 let num_cards = 6;
+const randomNumberCardQuestion = Math.floor(Math.random() * 12) + 1;
+console.log(randomNumberCardQuestion);
+const questionModal = document.getElementById("questionModal");
+const questionText = document.getElementById("questionText");
+
+const questions = [
+  { question: "Bạn yêu GDSC không", answer: ["yes", "no"], correct: "yes" },
+  { question: "Bạn là tv GDSC?", answer: ["yes", "no"], correct: "yes" },
+  { question: "Bạn thích đến đây", answer: ["yes", "no"], correct: "yes" },
+  { question: "Bạn biết tôi chứ", answer: ["yes", "no"], correct: "yes" },
+  { question: "Bạn là SV bách khoa", answer: ["yes", "no"], correct: "yes" },
+  { question: "Bạn học giỏi", answer: ["yes", "no"], correct: "yes" },
+  { question: "Bạn nhác làm", answer: ["yes", "no"], correct: "yes" },
+  { question: "Bạn là số 1", answer: ["yes", "no"], correct: "yes" },
+  { question: "Bạn có ny chưa", answer: ["yes", "no"], correct: "yes" },
+];
 
 // while (cards.length < num_cards) {
 //   let randomNumber = Math.floor(Math.random() * 5) + 1;
@@ -10,9 +26,9 @@ let num_cards = 6;
 
 cards = [...cards, ...cards];
 
-const modal = document.querySelector(".modal");
-const modalText = document.querySelector(".modalText");
-const playAgain = document.querySelector(".playAgain");
+const modalResult = document.querySelector(".modalResult");
+const modalText = document.querySelector(".modalResult .modalText");
+const playAgain = document.querySelector(".modalResult .playAgain");
 
 const stars = document.querySelector(".stars");
 const moves = document.querySelector(".moves");
@@ -48,11 +64,7 @@ function newGame() {
   for (let i = 0; i < cards.length; i++) {
     deck.insertAdjacentHTML(
       "afterbegin",
-      '<div class = " card "><img class="hidden" src = "./assets/img/' +
-        cards[i] +
-        '.png " name="' +
-        cards[i] +
-        '"></img></div>'
+      `<div attr-number=${i + 1} class = " card "><img class="hidden" src = "./assets/img/` + cards[i] + '.png " name="' + cards[i] + '"></img></div>'
     );
   }
 
@@ -107,11 +119,38 @@ function addMove(card) {
   }
 }
 
+const handleAnswer = (answer, correct, card) => {
+  if (answer === correct) {
+    alert("correct");
+    if (cards_select.length < 2) {
+      flipCard(card);
+
+      if (!cards_select.includes(card)) {
+        cards_select.push(card);
+      }
+    }
+    if (cards_select.length === 2) {
+      if (cards_select[0] === cards_select[1]) {
+        return;
+      }
+      addMove(card);
+      if (cards_select[0].querySelector("img").name === cards_select[1].querySelector("img").name) {
+        cardMatch();
+      } else {
+        cardMisMatch();
+      }
+    }
+    endGame();
+  } else {
+    alert("wrong");
+  }
+  questionModal.style.display = "none";
+};
+
 if (!movesWait) {
   deck.addEventListener("click", function (e) {
     if (!processingClick) {
       processingClick = true;
-
       let card = e.target;
 
       if (e.target !== e.currentTarget && card.classList.contains("card")) {
@@ -121,28 +160,44 @@ if (!movesWait) {
           timer.style.display = "inline-block";
         }
         if (!card.classList.contains("open")) {
-          if (cards_select.length < 2) {
-            flipCard(card);
+          if (randomNumberCardQuestion === Number(card.getAttribute("attr-number"))) {
+            console.log("e");
+            const question = questions[Math.floor(Math.random() * questions.length)];
+            questionModal.innerHTML = `
+            <div class="modalContent">
+              <p id="questionText">${question.question}</p>
+              <button id='buttonAnswer'>${question.answer[0]}</button>
+              <button id='buttonAnswer'>${question.answer[1]}</button>
+            </div>
+            `;
+            questionModal.style.display = "block";
+            const answerButtons = document.querySelectorAll("#buttonAnswer");
+            answerButtons.forEach((button, index) => {
+              button.addEventListener("click", () => {
+                handleAnswer(question.answer[index], question.correct, card);
+              });
+            });
+          } else {
+            if (cards_select.length < 2) {
+              flipCard(card);
 
-            if (!cards_select.includes(card)) {
-              cards_select.push(card);
+              if (!cards_select.includes(card)) {
+                cards_select.push(card);
+              }
             }
+            if (cards_select.length === 2) {
+              if (cards_select[0] === cards_select[1]) {
+                return;
+              }
+              addMove(card);
+              if (cards_select[0].querySelector("img").name === cards_select[1].querySelector("img").name) {
+                cardMatch();
+              } else {
+                cardMisMatch();
+              }
+            }
+            endGame();
           }
-          if (cards_select.length === 2) {
-            if (cards_select[0] === cards_select[1]) {
-              return;
-            }
-            addMove(card);
-            if (
-              cards_select[0].querySelector("img").name ===
-              cards_select[1].querySelector("img").name
-            ) {
-              cardMatch();
-            } else {
-              cardMisMatch();
-            }
-          }
-          endGame();
         }
       }
 
@@ -160,7 +215,7 @@ function calculateScore() {
 
 function endGame() {
   if (matches === num_cards) {
-    modal.style.display = "flex";
+    modalResult.style.display = "flex";
 
     modalText.innerHTML =
       "<h2>Congratulations!<br /> You made it</h2> <br> Time taken: <br>" +
