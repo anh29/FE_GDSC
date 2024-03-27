@@ -13,20 +13,24 @@ const questions = [
 let currentQuestionIndex = 0;
 let gameCompleted = false;
 let questionDisplayed = false;
+let clickCount = 0;
 
 function handleCardClick(card) {
-  if (gameCompleted) {
-    currentQuestionIndex = 0;
-    gameCompleted = false;
-  }
-
   const questionModal = document.getElementById('questionModal');
   const questionText = document.getElementById('questionText');
 
-  if (!questionDisplayed) {
+  if (gameCompleted === true) {
+    return alert(
+      'Đáp án đã được ròi! Không đoán đúng nữa, hãy thử đoán lại sau!'
+    );
+  }
+
+  clickCount++;
+  if (!questionDisplayed && Math.random() < 0.5) {
     const question = questions[currentQuestionIndex / 2].question;
     questionText.textContent = question;
     questionModal.style.display = 'block';
+    questionDisplayed = true;
   }
 
   currentQuestionIndex++;
@@ -39,13 +43,10 @@ function chooseAnswer(answer) {
     questions[Math.floor((currentQuestionIndex - 1) / 2)].answer;
 
   if (answer.toLowerCase() === correctAnswer.toLowerCase()) {
-    questionModal.style.display = 'none';
-    if (currentQuestionIndex >= questions.length * 2) {
-      alert("You've answered all questions!");
-      gameCompleted = true;
-    }
+    questionModal.style.visibility = 'hidden';
+    alert('Đáp án đúng! Bạn đã đoán đúng: ' + correctAnswer);
   } else {
-    alert('Thất bại! Thử lại.');
+    alert('Thất bại! Hãy thử lại.');
     const randomQuestionIndex = Math.floor(Math.random() * questions.length);
     const randomQuestion = questions[randomQuestionIndex].question;
     const questionText = document.getElementById('questionText');

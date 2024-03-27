@@ -10,15 +10,15 @@ let num_cards = 6;
 
 cards = [...cards, ...cards];
 
-const modal = document.querySelector(".modal");
-const modalText = document.querySelector(".modalText");
-const playAgain = document.querySelector(".playAgain");
+const modal = document.querySelector('.modal');
+const modalText = document.querySelector('.modalText');
+const playAgain = document.querySelector('.playAgain');
 
-const stars = document.querySelector(".stars");
-const moves = document.querySelector(".moves");
-let timer = document.querySelector(".timer");
-const restart = document.querySelector(".restart");
-const deck = document.querySelector(".deck");
+const stars = document.querySelector('.stars');
+const moves = document.querySelector('.moves');
+let timer = document.querySelector('.timer');
+const restart = document.querySelector('.restart');
+const deck = document.querySelector('.deck');
 
 let interval;
 let second = 1;
@@ -35,10 +35,10 @@ let processingClick = false;
 
 function newGame() {
   resetTimer();
-  deck.innerHTML = "";
-  timer.style.display = "none";
+  deck.innerHTML = '';
+  timer.style.display = 'none';
   timeStart = false;
-  timer.textContent = minute + " minutes " + second + " seconds";
+  timer.textContent = minute + ' minutes ' + second + ' seconds';
   shuffle(cards);
   cards_select = [];
   matches = 0;
@@ -47,7 +47,7 @@ function newGame() {
 
   for (let i = 0; i < cards.length; i++) {
     deck.insertAdjacentHTML(
-      "afterbegin",
+      'afterbegin',
       '<div class = " card "><img class="hidden" src = "./assets/img/' +
         cards[i] +
         '.png " name="' +
@@ -59,33 +59,33 @@ function newGame() {
   handleCanvasProcessing();
 }
 
-playAgain.addEventListener("click", function () {
+playAgain.addEventListener('click', function () {
   location.reload();
 });
 
-restart.addEventListener("click", function () {
+restart.addEventListener('click', function () {
   newGame();
 });
 
 function flipCard(card) {
-  card.classList.add("open", "show");
+  card.classList.add('open', 'show');
 
-  var img = card.querySelector("img");
-  img.classList.remove("hidden");
+  var img = card.querySelector('img');
+  img.classList.remove('hidden');
 }
 
 function hiddenCard(card) {
-  card.classList.remove("open", "show");
+  card.classList.remove('open', 'show');
 
-  var img = card.querySelector("img");
-  img.classList.add("hidden");
+  var img = card.querySelector('img');
+  img.classList.add('hidden');
 }
 
 function cardMatch() {
-  cards_select[0].classList.remove("open", "show");
-  cards_select[0].classList.add("match");
-  cards_select[1].classList.remove("open", "show");
-  cards_select[1].classList.add("match");
+  cards_select[0].classList.remove('open', 'show');
+  cards_select[0].classList.add('match');
+  cards_select[1].classList.remove('open', 'show');
+  cards_select[1].classList.add('match');
   cards_select = [];
   matches++;
 }
@@ -101,26 +101,26 @@ function cardMisMatch() {
 }
 
 function addMove(card) {
-  if (!card.classList.contains("match")) {
+  if (!card.classList.contains('match')) {
     movesCount++;
     moves.innerText = movesCount;
   }
 }
 
 if (!movesWait) {
-  deck.addEventListener("click", function (e) {
+  deck.addEventListener('click', function (e) {
     if (!processingClick) {
       processingClick = true;
 
       let card = e.target;
 
-      if (e.target !== e.currentTarget && card.classList.contains("card")) {
+      if (e.target !== e.currentTarget && card.classList.contains('card')) {
         if (!timeStart) {
           startTimer();
           timeStart = true;
-          timer.style.display = "inline-block";
+          timer.style.display = 'inline-block';
         }
-        if (!card.classList.contains("open")) {
+        if (!card.classList.contains('open')) {
           if (cards_select.length < 2) {
             flipCard(card);
 
@@ -134,8 +134,8 @@ if (!movesWait) {
             }
             addMove(card);
             if (
-              cards_select[0].querySelector("img").name ===
-              cards_select[1].querySelector("img").name
+              cards_select[0].querySelector('img').name ===
+              cards_select[1].querySelector('img').name
             ) {
               cardMatch();
             } else {
@@ -160,18 +160,18 @@ function calculateScore() {
 
 function endGame() {
   if (matches === num_cards) {
-    modal.style.display = "flex";
+    modal.style.display = 'flex';
 
     modalText.innerHTML =
-      "<h2>Congratulations!<br /> You made it</h2> <br> Time taken: <br>" +
+      '<h2>Congratulations!<br /> You made it</h2> <br> Time taken: <br>' +
       minute +
-      "minutes " +
+      'minutes ' +
       second +
-      "seconds <br> Moves Taken: " +
+      'seconds <br> Moves Taken: ' +
       movesCount +
-      " <br> Score: " +
+      ' <br> Score: ' +
       calculateScore() +
-      " <br> You can do better!";
+      ' <br> You can do better!';
   }
 }
 
@@ -184,7 +184,7 @@ function resetTimer() {
 function startTimer() {
   interval = setInterval(function () {
     second++;
-    timer.textContent = minute + " minutes " + second + " seconds ";
+    timer.textContent = minute + ' minutes ' + second + ' seconds ';
     if (second === 60) {
       minute++;
       second = 0;
