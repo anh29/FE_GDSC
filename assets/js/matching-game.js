@@ -18,11 +18,10 @@ let clickCount = 0;
 function handleCardClick(card) {
   const questionModal = document.getElementById('questionModal');
   const questionText = document.getElementById('questionText');
+  const completionMessage = document.getElementById('completionMessage');
 
-  if (gameCompleted === true) {
-    return alert(
-      'Đáp án đã được ròi! Không đoán đúng nữa, hãy thử đoán lại sau!'
-    );
+  if (gameCompleted) {
+    return alert('Đáp án đày rồi! Không đoán đúng nữa, thể đoán lai đi!');
   }
 
   clickCount++;
@@ -38,15 +37,19 @@ function handleCardClick(card) {
 
 function chooseAnswer(answer) {
   const questionModal = document.getElementById('questionModal');
+  const completionMessage = document.getElementById('completionMessage');
 
   const correctAnswer =
     questions[Math.floor((currentQuestionIndex - 1) / 2)].answer;
 
   if (answer.toLowerCase() === correctAnswer.toLowerCase()) {
     questionModal.style.visibility = 'hidden';
-    alert('Đáp án đúng! Bạn đã đoán đúng: ' + correctAnswer);
+    alert('Đáp án đúng! Bạn đã đoán đúng ' + correctAnswer);
+    if (currentQuestionIndex >= questions.length * 2) {
+      gameCompleted = true;
+    }
   } else {
-    alert('Thất bại! Hãy thử lại.');
+    alert('Thất bại! Thử lại.');
     const randomQuestionIndex = Math.floor(Math.random() * questions.length);
     const randomQuestion = questions[randomQuestionIndex].question;
     const questionText = document.getElementById('questionText');

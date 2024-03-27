@@ -22,8 +22,8 @@
     <div class="modal" id="questionModal">
       <div class="modalContent">
         <p id="questionText"></p>
-        <button onclick="chooseAnswer('yes')">Yes</button>
-        <button onclick="chooseAnswer('no')">No</button>
+        <button onclick="chooseAnswer('yes')" id="yesButton">Yes</button>
+        <button onclick="chooseAnswer('no')" id="noButton">No</button>
       </div>
     </div>
 
@@ -59,12 +59,13 @@
       </div>
 
       <div class="deck" onclick="handleCardClick(this)"></div>
+      <!-- <div class="deck"></div> -->
 
       <br />
     </div>
 
     <script src="./assets/js/changeColor.js"></script>
     <script src="./assets/js/main.js"></script>
-    <script src="./assets/js/matching-game.js"></script>
+    <!-- <script src="./assets/js/matching-game.js"></script> -->
   </body>
 </html>
